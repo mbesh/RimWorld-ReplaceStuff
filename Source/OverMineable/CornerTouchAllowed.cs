@@ -76,7 +76,8 @@ namespace Replace_Stuff.OverMineable
 			//so just find the one with less parameters.
 			MethodInfo TryPlaceThingInfo = typeof(GenPlace).GetMethods(AccessTools.all)
 				.Where(mi => mi.Name == "TryPlaceThing")
-				.MinBy(mi => mi.GetParameters().Length);
+				.OrderBy(mi => mi.GetParameters().Length)
+				.FirstOrDefault();
 
 			//Same thing put takes a pawn to validate room.
 			MethodInfo TryPlaceThingInSameRoomInfo = AccessTools.Method(typeof(DropOnPawn), nameof(TryPlaceThingInSameRoom));
