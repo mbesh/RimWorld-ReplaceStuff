@@ -13,21 +13,15 @@ namespace Replace_Stuff.OverMineable
 {
 	//Include blueprints and frames in IsCornerTouchAllowed
 	//(Frames were included, but ReplaceStuff removes their 'edifice' status so they need to be re-included)
-	[HarmonyPatch(typeof(TouchPathEndModeUtility), nameof(TouchPathEndModeUtility.IsCornerTouchAllowed))]
+	[HarmonyPatch(typeof(TouchPathEndModeUtility), "IsCornerTouchAllowed_NewTemp")]
 	public static class IsCornerTouchAllowed
 	{
-		//public static bool IsCornerTouchAllowed(int cornerX, int cornerZ, int adjCardinal1X, int adjCardinal1Z, int adjCardinal2X, int adjCardinal2Z, PathingContext pc)
-		public static void Postfix(ref bool __result, IntVec3 corner, PathingContext pc)
+		// Bind the fourth argument by index so parameter renames do not break the patch.
+		public static void Postfix(ref bool __result, Thing __3)
 		{
-			if (!__result)
-			{
-				foreach (Thing thing in pc.map.thingGrid.ThingsListAtFast(corner))
-					if (thing is Blueprint || thing is Frame && TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(thing.def))
-					{
-						__result = true;
-						return;
-					}
-			}
+			if (!__result && (__3 is Blueprint || __3 is Frame &&
+				TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(__3.def)))
+				__result = true;
 		}
 	}
 
