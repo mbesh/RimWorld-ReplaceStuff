@@ -81,8 +81,12 @@ namespace Replace_Stuff.NewThing
 
 		public static bool CanReplace(this ThingDef newDef, ThingDef oldDef)
 		{
+			if (newDef == null || oldDef == null)
+				return false;
+
 			newDef = GenConstruct.BuiltDefOf(newDef) as ThingDef;
-			if (newDef == oldDef)
+			// Floor blueprints and frames build TerrainDefs, not replaceable buildings.
+			if (newDef == null || newDef == oldDef)
 			{
 				return false;
 			}
