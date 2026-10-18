@@ -63,3 +63,26 @@ game DLLs, and release-only metadata. Existing files are updated; unrelated or
 obsolete files are not deleted. Use `-WhatIf` to preview the destination.
 In RimWorld, enable **Replace Stuff - Dev Build** after **Harmony** and disable
 other copies of Replace Stuff. Restart the game after deploying an updated DLL.
+
+## Preparing a Workshop release
+
+Close RimWorld, then run:
+
+```powershell
+.\scripts\Build-Release.ps1 -RemoveDevBuild
+```
+
+This uses `RimWorldDir` (or `-RimWorldDir <path>`), locates Visual Studio MSBuild,
+restores dependencies, builds the whole solution in Release, and installs the
+runtime files to `<RimWorldDir>\Mods\ReplaceStuff-Release`. Each file is verified
+using SHA256. The release package ID is `mbesh.ReplaceStuff`; the development
+package keeps its separate ID.
+
+`-RemoveDevBuild` removes only the verified `ReplaceStuff-Dev` mod directory,
+after the release is successfully installed. Omit the switch to keep it.
+Use `-WhatIf` to preview without building or changing files.
+
+An existing release `About\PublishedFileId.txt` is preserved, so subsequent
+Workshop uploads can update the same item. The script does not publish to Steam.
+Enable the installed release after Harmony, test it, then upload it from RimWorld's
+Mods menu with Development mode enabled.

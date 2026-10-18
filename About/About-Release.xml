@@ -11,7 +11,7 @@
 		<li>1.6</li>
 		<li>1.7</li>
 	</supportedVersions>
-	<packageId>Uuugggg.ReplaceStuff</packageId>
+	<packageId>mbesh.ReplaceStuff</packageId>
 	<description>Replace the stuff that a thing is made from, e.g. replace a wall's materials.
 	
 This mod does NOT deconstruct and reconstruct. It preserves the existing building and replaces materials in-place.
